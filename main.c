@@ -8,9 +8,11 @@
 void set_prices();
 void signup_user();
 void login_user();
+void view_user(int current_user);
+void modify_user(int current_user);
 
 //====VARIABLES====//
-int admin_login_done = 0 , set_done = 0 , reg_user_done = 0 , user_counter = 0;
+int admin_login_done = 0 , set_done = 0 , reg_user_done = 0 , user_counter = 0 , at_least_one_flight = 0;
 int to_ath,to_rom,to_mad,to_lon,to_ber,to_ams,to_nyw,to_bei,to_chi,to_syd; //Prices set by the admin.
 
 //====STRUCTS====//
@@ -252,6 +254,7 @@ void signup_user(){
 }
 //END OF THE FUNCTION SIGNUP_USER==============
 
+//START OF THE FUNCTION LOGIN_USER==============
 void login_user(){
 	int current_user;
 	system("cls");
@@ -262,12 +265,13 @@ void login_user(){
 	 	char username[20] , password[20];
 	 	int pass_check = 0 , user_check = 0 ;
 	 	
-		printf("Type the admin username: ");
+		printf("Type the user username: ");
 		scanf(" %s",username);
-		printf("Type the admin password: ");
+		printf("Type the user password: ");
 		scanf(" %s",password);
 		
-		for(int i = 0 ; i < user_counter; i++){
+		int i;
+		for(i = 0 ; i < user_counter; i++){
 			if(strcmp(username,pass[i].username) == 0 && strcmp(password,pass[i].password) == 0){
 				user_check = 1;
 				pass_check = 1;
@@ -297,7 +301,8 @@ void login_user(){
 		printf("--- 1.View\n--- 2.Modify\n--- 3.Calculate\n--- 4.Payment\n--- 5.Most Expensive\n--- 6.Logout\n");
 		
 		do{ //Input check.
-			scanf("%d",user_login_choice);
+			printf("Type your option: ");
+			scanf("%d",&user_login_choice);
 			if(user_login_choice > 6 || user_login_choice < 1){
 				printf("Wrong input.Try again:");
 				continue;
@@ -305,11 +310,60 @@ void login_user(){
 			break;
 		}while(1);
 		
-		if(user_login_choice){
-			
+		if(user_login_choice == 1){
+			view_user(current_user);
 		}
-		
+		else if(user_login_choice == 2){
+			modify_user(current_user);
+		}
 		
 	}while(user_login_choice != 6);
 	
 }
+//END OF THE FUNCTION LOGIN_USER==============
+
+//START OF THE FUNCTION VIEW_USER==============
+void view_user(int current_user){
+	
+	printf("\n---------VIEW PAGE---------\n");
+	printf("--Name: %s\n",pass[current_user].name);
+	printf("--Surname: %s\n",pass[current_user].surname);
+	printf("--Address: %s\n",pass[current_user].addr.name);
+	printf("--Address number: %d\n",pass[current_user].addr.number);
+	printf("--Address location: %s\n",pass[current_user].addr.location);
+	printf("--Postal Code: %d\n",pass[current_user].addr.postal);
+	printf("--Username: %s\n",pass[current_user].username);
+	printf("--Password: %s\n",pass[current_user].password);
+	
+	if(at_least_one_flight == 1){
+		
+	}
+	
+	sleep(10);
+}
+//END OF THE FUNCTION VIEW_USER==============
+
+//START OF THE FUNCTION MODIFY_USER==============
+void modify_user(int current_user){
+	
+	printf("\n---------MODIFY PAGE---------\n");
+	
+	printf("Type your new address name: ");
+	scanf(" %s",pass[current.user].addr.name);
+	
+	printf("Type your new address number: ");
+	scanf("%d",&pass[current_user].addr.number);
+	
+	printf("Type your new address location: ");
+	scanf(" %s",pass[current.user].addr.location);
+	
+	printf("Type your new address postal code: ");
+	scanf("%d",&pass[current_user].addr.postal);
+	
+	printf("\nChange Successfull!");
+	
+	sleep(3);
+	
+	
+}
+//END OF THE FUNCTION MODIFY_USER==============
