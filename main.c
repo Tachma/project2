@@ -10,6 +10,7 @@ void signup_user();
 void login_user();
 void view_user(int current_user);
 void modify_user(int current_user);
+void calculate_cost(int current_user, int i);
 
 //====VARIABLES====//
 int admin_login_done = 0 , set_done = 0 , reg_user_done = 0 , user_counter = 0 , at_least_one_flight = 0;
@@ -27,7 +28,7 @@ struct passenger{
 	}addr;
 	char username[30];
 	char password[20];
-	char flights[3][4][20];
+	char flights[3][4][11]; 
 };
 struct passenger pass[20];
 
@@ -316,6 +317,15 @@ void login_user(){
 		else if(user_login_choice == 2){
 			modify_user(current_user);
 		}
+		else if(user_login_choice == 3){
+			
+			printf("\n---------CALCULATE COST PAGE---------\n");
+			
+			int i;
+			for(i = 0;i<3; i++);
+				calculate_cost(current_user,i);
+				
+		}
 		
 	}while(user_login_choice != 6);
 	
@@ -367,3 +377,56 @@ void modify_user(int current_user){
 	
 }
 //END OF THE FUNCTION MODIFY_USER==============
+
+//START OF THE FUNCTION CALCULATE_COST==============
+void calculate_cost(int current_user , int i){
+	
+	char sel[4];
+	
+	printf("\nBook your flight number %d --- \n",i);
+	
+	printf("-Type ROM for Rome\n-Type MAD for Madrid\nType LON for London\n-Type BER for Berlin\n-Type AMS for Amsterdam\n-Type NYW for New York\n-Type BEI for Beijing\n-Type CHI for Chicago\n-Type SYD for Sydney\n");
+	
+	do{
+		
+		printf("What do you select: ");
+		scanf("%s",sel);
+		
+		
+		if(strcmp(sel,"ROM") == 0){
+			
+		}
+		else if(strcmp(sel,"MAD") == 0){
+			
+		}
+		else if(strcmp(sel,"LON") == 0){
+			
+		}
+		else if(strcmp(sel,"BER") == 0){
+			
+		}
+		else if(strcmp(sel,"AMS") == 0){
+			
+		}
+		else if(strcmp(sel,"NYW") == 0){
+			
+		}
+		else if(strcmp(sel,"BEI") == 0){
+			
+		}
+		else if(strcmp(sel,"CHI") == 0){
+			
+		}
+		else if(strcmp(sel,"SYD") == 0){
+			
+		}
+		else{
+			printf("Wrong input try again.");
+			continue;
+		}
+		
+		break;
+	}while(1);
+	
+	
+}
