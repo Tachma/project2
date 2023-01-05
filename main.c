@@ -3,6 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <ctype.h>
+#include <time.h>
 
 //====FUNCTIONS====//
 void set_prices();
@@ -322,8 +323,9 @@ void login_user(){
 			printf("\n---------CALCULATE COST PAGE---------\n");
 			
 			int i;
-			for(i = 0;i<3; i++);
+			for(i = 0;i<3; i++){
 				calculate_cost(current_user,i);
+			}
 				
 		}
 		
@@ -359,13 +361,13 @@ void modify_user(int current_user){
 	printf("\n---------MODIFY PAGE---------\n");
 	
 	printf("Type your new address name: ");
-	scanf(" %s",pass[current.user].addr.name);
+	scanf(" %s",pass[current_user].addr.name);
 	
 	printf("Type your new address number: ");
 	scanf("%d",&pass[current_user].addr.number);
 	
 	printf("Type your new address location: ");
-	scanf(" %s",pass[current.user].addr.location);
+	scanf(" %s",pass[current_user].addr.location);
 	
 	printf("Type your new address postal code: ");
 	scanf("%d",&pass[current_user].addr.postal);
@@ -381,9 +383,47 @@ void modify_user(int current_user){
 //START OF THE FUNCTION CALCULATE_COST==============
 void calculate_cost(int current_user , int i){
 	
+	int  cost; 
 	char sel[4];
 	
-	printf("\nBook your flight number %d --- \n",i);
+	time_t current_time; //We use that in order to store the time in this varible.
+	time(&current_time); //Finding the date and time.
+	
+	struct tm *myTime = localtime(&current_time); //Struct that is needed to return the value we want ( day , month etc.).
+	
+	int month = myTime->tm_mon + 1 ;  //That way we find the month but because it returns -1 for every month we add 1.
+	int day = myTime->tm_mday ; //That way we find the day of the month but this one returns the corrert day.
+	
+	char str_month[10] , str_day[10]; //Variables to store the string month and day.
+	char temp_m[10] , temp_d[10] ; //Temporary  variable to store the unfinished string month and day.
+	
+	if(month < 10 ){
+		
+		strcpy(str_month,"0");
+		itoa(month,temp_m,10); //integer to string
+		strcat(str_month,temp_m); //combines the '0' with the current month that we found before.
+	
+	}
+	else{
+		
+		itoa(month,str_month,10); //integer to string
+
+	}
+	
+	if(day< 10 ){
+		
+		strcpy(str_day,"0");
+		itoa(day,temp_d,10); //integer to string
+		strcat(str_day,temp_d); //combines the '0' with the current day that we found before.
+		
+	}
+	else{
+		
+		itoa(day,str_day,10); //integer to string
+		
+	}
+	
+	printf("\nBook your flight number %d --- \n",i+1);
 	
 	printf("-Type ROM for Rome\n-Type MAD for Madrid\nType LON for London\n-Type BER for Berlin\n-Type AMS for Amsterdam\n-Type NYW for New York\n-Type BEI for Beijing\n-Type CHI for Chicago\n-Type SYD for Sydney\n");
 	
@@ -392,39 +432,98 @@ void calculate_cost(int current_user , int i){
 		printf("What do you select: ");
 		scanf("%s",sel);
 		
+		strcpy(pass[current_user].flights[i][0],"ATH"); //1st column always starts with ATH.
 		
 		if(strcmp(sel,"ROM") == 0){
 			
+			strcat(pass[current_user].flights[i][0],"ROM"); //combining the rest of the code.
+			strcpy(pass[current_user].flights[i][1],"ROM");
+			strcpy(pass[current_user].flights[i][3],"ROM"); //4th column with the destination.
+			
+			cost = 15 + to_rom;
 		}
 		else if(strcmp(sel,"MAD") == 0){
 			
+			strcat(pass[current_user].flights[i][0],"MAD"); //combining the rest of the code.
+			strcpy(pass[current_user].flights[i][1],"MAD");
+			strcpy(pass[current_user].flights[i][3],"MAD"); //4th column with the destination.
+			
+			cost = 20 + to_mad;
 		}
 		else if(strcmp(sel,"LON") == 0){
+			
+			strcat(pass[current_user].flights[i][0],"LON"); //combining the rest of the code.
+			strcpy(pass[current_user].flights[i][1],"LON");
+			strcpy(pass[current_user].flights[i][3],"LON"); //4th column with the destination.
+			
+			cost = 40 + to_lon;
 			
 		}
 		else if(strcmp(sel,"BER") == 0){
 			
+			strcat(pass[current_user].flights[i][0],"BER"); //combining the rest of the code.
+			strcpy(pass[current_user].flights[i][1],"BER");
+			strcpy(pass[current_user].flights[i][3],"BER"); //4th column with the destination.
+			
+			cost = 35 + to_ber;
 		}
 		else if(strcmp(sel,"AMS") == 0){
 			
+			strcat(pass[current_user].flights[i][0],"AMS"); //combining the rest of the code.
+			strcpy(pass[current_user].flights[i][1],"AMS");
+			strcpy(pass[current_user].flights[i][3],"AMS"); //4th column with the destination.
+			
+			cost = 30 + to_ams;
 		}
 		else if(strcmp(sel,"NYW") == 0){
 			
+			strcat(pass[current_user].flights[i][0],"NYW"); //combining the rest of the code.
+			strcpy(pass[current_user].flights[i][1],"NYW");
+			strcpy(pass[current_user].flights[i][3],"NYW"); //4th column with the destination.
+			
+			cost = 60 + to_nyw;
 		}
 		else if(strcmp(sel,"BEI") == 0){
 			
+			strcat(pass[current_user].flights[i][0],"BEI"); //combining the rest of the code.
+			strcpy(pass[current_user].flights[i][1],"BEI");
+			strcpy(pass[current_user].flights[i][3],"BEI"); //4th column with the destination.
+			
+			cost = 30 + to_bei;
 		}
 		else if(strcmp(sel,"CHI") == 0){
 			
+			strcat(pass[current_user].flights[i][0],"CHI"); //combining the rest of the code.
+			strcpy(pass[current_user].flights[i][1],"CHI");
+			strcpy(pass[current_user].flights[i][3],"CHI"); //4th column with the destination.
+			
+			cost = 45 + to_chi;
 		}
 		else if(strcmp(sel,"SYD") == 0){
 			
+			strcat(pass[current_user].flights[i][0],"SYD"); //combining the rest of the code.
+			strcpy(pass[current_user].flights[i][1],"SYD");
+			strcpy(pass[current_user].flights[i][3],"SYD"); //4th column with the destination.
+			
+			cost = 50 + to_syd;
 		}
 		else{
 			printf("Wrong input try again.");
 			continue;
 		}
+		strcat(pass[current_user].flights[i][0],str_day);  //combining the rest of the code.
+		strcat(pass[current_user].flights[i][0],str_month); //combining the rest of the code.
 		
+		strcat(pass[current_user].flights[i][1],"ATH"); //This is for the 2nd column.
+		strcat(pass[current_user].flights[i][1],str_day);  
+		strcat(pass[current_user].flights[i][1],str_month);
+		
+		cost  = cost + 25  + to_ath;
+		
+		char str_cost[10];
+		itoa(cost,str_cost,10);
+		strcpy(pass[current_user].flights[i][2],str_cost); //making the cost a string and adding it to the array.
+
 		break;
 	}while(1);
 	
