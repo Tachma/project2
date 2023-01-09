@@ -12,10 +12,13 @@ void login_user();
 void view_user(int current_user);
 void modify_user(int current_user);
 void calculate_cost(int current_user, int i);
+void payment(int current_user);
 
 //====VARIABLES====//
-int admin_login_done = 0 , set_done = 0 , reg_user_done = 0 , user_counter = 0 , at_least_one_flight = 0;
+int set_done = 0 , reg_user_done = 0 , user_counter = 0;
 int to_ath,to_rom,to_mad,to_lon,to_ber,to_ams,to_nyw,to_bei,to_chi,to_syd; //Prices set by the admin.
+int calculate_done[20];
+int paid_flights[20][3];
 
 //====STRUCTS====//
 struct passenger{
@@ -55,7 +58,7 @@ int main(int argc, char *argv[]) {
 				printf("\nWrong input.Try again:");
 				continue;
 			}
-			else if(strcmp(option,"user")==0 && admin_login_done == 0){
+			else if(strcmp(option,"user")==0 && set_done == 0){
 				printf("\nYou have to login as admin first to set the prices.Try again:");
 				continue;
 			}
@@ -171,45 +174,39 @@ int main(int argc, char *argv[]) {
 void set_prices(){
 	
 	printf("\n====== Set Prices ======\n");
+
+	printf("\nSet the flight cost to Athens:");
+	scanf("%d",&to_ath);
 	
-	if(set_done == 0){
+	printf("\nSet the flight cost to Rome:");
+	scanf("%d",&to_rom);
 	
-		printf("\nSet the flight cost to Athens:");
-		scanf("%d",&to_ath);
-		
-		printf("\nSet the flight cost to Rome:");
-		scanf("%d",&to_rom);
-		
-		printf("\nSet the flight cost to Madrid:");
-		scanf("%d",&to_mad);
-		
-		printf("\nSet the flight cost to London:");
-		scanf("%d",&to_lon);
-		
-		printf("\nSet the flight cost to Berlin:");
-		scanf("%d",&to_ber);
-		
-		printf("\nSet the flight cost to Amsterdam:");
-		scanf("%d",&to_ams);
-		
-		printf("\nSet the flight cost to New York:");
-		scanf("%d",&to_nyw);
-		
-		printf("\nSet the flight cost to Beijing:");
-		scanf("%d",&to_bei);
-		
-		printf("\nSet the flight cost to Chicago:");
-		scanf("%d",&to_chi);
-		
-		printf("\nSet the flight cost to Sydney:");
-		scanf("%d",&to_syd);
-		
-		set_done = 1;
-	}
-	else{
-		printf("\nSet the flight cost to Athens:");
-		scanf("%d",&to_ath);
-	}
+	printf("\nSet the flight cost to Madrid:");
+	scanf("%d",&to_mad);
+	
+	printf("\nSet the flight cost to London:");
+	scanf("%d",&to_lon);
+	
+	printf("\nSet the flight cost to Berlin:");
+	scanf("%d",&to_ber);
+	
+	printf("\nSet the flight cost to Amsterdam:");
+	scanf("%d",&to_ams);
+	
+	printf("\nSet the flight cost to New York:");
+	scanf("%d",&to_nyw);
+	
+	printf("\nSet the flight cost to Beijing:");
+	scanf("%d",&to_bei);
+	
+	printf("\nSet the flight cost to Chicago:");
+	scanf("%d",&to_chi);
+	
+	printf("\nSet the flight cost to Sydney:");
+	scanf("%d",&to_syd);
+	
+	set_done = 1;
+
 	
 	
 }
@@ -300,34 +297,92 @@ void login_user(){
 		system("cls");
 		
 		printf("========== User Page ==========\n");
-		printf("--- 1.View\n--- 2.Modify\n--- 3.Calculate\n--- 4.Payment\n--- 5.Most Expensive\n--- 6.Logout\n");
 		
-		do{ //Input check.
-			printf("Type your option: ");
-			scanf("%d",&user_login_choice);
-			if(user_login_choice > 6 || user_login_choice < 1){
-				printf("Wrong input.Try again:");
-				continue;
-			}	
-			break;
-		}while(1);
+		if(calculate_done[current_user] != 1){
 		
-		if(user_login_choice == 1){
-			view_user(current_user);
-		}
-		else if(user_login_choice == 2){
-			modify_user(current_user);
-		}
-		else if(user_login_choice == 3){
+			printf("--- 1.View\n--- 2.Modify\n--- 3.Calculate\n--- 4.Logout\n");
 			
-			printf("\n---------CALCULATE COST PAGE---------\n");
-			
-			int i;
-			for(i = 0;i<3; i++){
-				calculate_cost(current_user,i);
-			}
+			do{ //Input check.
+				printf("Type your option: ");
+				scanf("%d",&user_login_choice);
+				if(user_login_choice > 6 || user_login_choice < 1){
+					printf("Wrong input.Try again:");
+					continue;
+				}
 				
+				break;
+			}while(1);
+			
+			if(user_login_choice == 1){
+				view_user(current_user);
+			}
+			else if(user_login_choice == 2){
+				modify_user(current_user);
+			}
+			else if(user_login_choice == 3){
+				
+				printf("\n---------CALCULATE COST PAGE---------\n");
+				
+				int i;
+				for(i = 0;i<3; i++){
+					calculate_cost(current_user,i);	
+				}
+				
+				calculate_done[current_user] = 1; //This is an array which shows if the user has successfully done the calculation of the cost.
+				
+				printf("\nCost Calculation successful.");
+				sleep(3);
+			}
+			else if(user_login_choice == 4){
+				
+				user_login_choice = 6;
+				
+			}
 		}
+		else{
+			
+			printf("--- 1.View\n--- 2.Modify\n--- 3.Calculate\n--- 4.Payment\n--- 5.Most Expensive\n--- 6.Logout\n");
+		
+			do{ //Input check.
+				printf("Type your option: ");
+				scanf("%d",&user_login_choice);
+				if(user_login_choice > 6 || user_login_choice < 1){
+					printf("Wrong input.Try again:");
+					continue;
+				}
+				
+				break;
+			}while(1);
+			
+			
+			if(user_login_choice == 1){
+				view_user(current_user);
+			}
+			else if(user_login_choice == 2){
+				modify_user(current_user);
+			}
+			else if(user_login_choice == 3){
+				
+				printf("\n---------CALCULATE COST PAGE---------\n");
+				
+				int i;
+				for(i = 0;i<3; i++){
+					calculate_cost(current_user,i);	
+				}
+				
+				calculate_done[current_user] = 1; //This is an array which shows if the user has successfully done the calculation of the cost.
+				
+				printf("\nCost Calculation successful.");
+				sleep(3);
+				
+			}	
+			else if(user_login_choice == 4){
+				
+				payment(current_user);
+				
+			}
+		}
+		
 		
 	}while(user_login_choice != 6);
 	
@@ -347,7 +402,9 @@ void view_user(int current_user){
 	printf("--Username: %s\n",pass[current_user].username);
 	printf("--Password: %s\n",pass[current_user].password);
 	
-	if(at_least_one_flight == 1){
+	if(calculate_done[current_user] = 1){
+		
+		
 		
 	}
 	
@@ -527,5 +584,57 @@ void calculate_cost(int current_user , int i){
 		break;
 	}while(1);
 	
+}
+//END OF THE FUNCTION MODIFY_USER==============
+
+//START OF THE DUNCTION PAYMENT===============
+void payment(int current_user){
+	int choice;
 	
+	printf("\n---------PAYMENT PAGE---------\n");
+	
+	printf("\nThe cost of the first booked flight is : %s",pass[current_user].flights[0][2]);
+	printf("\nThe cost of the second booked flight is : %s",pass[current_user].flights[1][2]);
+	printf("\nThe cost of the third booked flight is : %s",pass[current_user].flights[2][2]);
+	
+	printf("\nType 1 , 2 or 3 to pay one of the flight above: ");
+	
+	do{
+		
+		scanf("%d",&choice);
+		if(choice<1 || choice>3){
+			printf("Wrong input.Try again:");
+			continue;
+		}
+			
+		break;
+	}while(1);
+	
+	
+	
+	printf("Type the amount of the flight you want to pay: ");
+	do{
+		char typed_amount[10];
+		scanf("%s",typed_amount);
+		
+		if(strcmp(typed_amount,pass[current_user].flights[current_user][choice-1])!=0){
+			
+			printf("Wrong input.Try again: ");
+			continue;
+		}
+		break;
+	}while(1);
+	
+	paid_flights[current_user][choice-1] = 1;
+	
+	if(choice == 1){
+		
+		
+	}
+	else if(choice == 2){
+			
+	}
+	else if(choice == 3){
+			
+	}
 }
