@@ -13,7 +13,7 @@ void view_user(int current_user);
 void modify_user(int current_user);
 void calculate_cost(int current_user, int i);
 void payment(int current_user);
-
+void most_expensive(int current_user);
 //====VARIABLES====//
 int set_done = 0 , reg_user_done = 0 , user_counter = 0;
 int to_ath,to_rom,to_mad,to_lon,to_ber,to_ams,to_nyw,to_bei,to_chi,to_syd; //Prices set by the admin.
@@ -112,7 +112,7 @@ int main(int argc, char *argv[]) {
 				
 				if(choice_admin == 'a'){
 					set_prices();
-					admin_login_done = 1; //FLAG THAT SHOWS THAT PRICES HAS BEEN SET.
+					
 				}
 				
 			}while(choice_admin == 'a');
@@ -238,7 +238,8 @@ void signup_user(){
 	
 	strcat(pass[user_counter].username,pass[user_counter].surname); //combines the two strings. Found in <string.h> library.
 	
-	for(int i = 0; i< strlen(pass[user_counter].username); i++ ){ //Lower casing every letter. strlen included in string.h library.
+	int i;
+	for(i = 0; i< strlen(pass[user_counter].username); i++ ){ //Lower casing every letter. strlen included in string.h library.
 		pass[user_counter].username[i] = tolower(pass[user_counter].username[i]);
 	}
 	
@@ -379,6 +380,11 @@ void login_user(){
 			else if(user_login_choice == 4){
 				
 				payment(current_user);
+				
+			}
+			else if(user_login_choice == 5){
+				
+				most_expensive(current_user);
 				
 			}
 		}
@@ -587,7 +593,7 @@ void calculate_cost(int current_user , int i){
 }
 //END OF THE FUNCTION MODIFY_USER==============
 
-//START OF THE DUNCTION PAYMENT===============
+//START OF THE FUNCTION PAYMENT===============
 void payment(int current_user){
 	int choice;
 	
@@ -615,26 +621,104 @@ void payment(int current_user){
 	printf("Type the amount of the flight you want to pay: ");
 	do{
 		char typed_amount[10];
-		scanf("%s",typed_amount);
+		scanf("%s",typed_amount);  
 		
-		if(strcmp(typed_amount,pass[current_user].flights[current_user][choice-1])!=0){
+		if(strcmp(typed_amount,pass[current_user].flights[current_user][choice-1])!=0){ //Checking if the typed amount of the user is correct.
 			
 			printf("Wrong input.Try again: ");
 			continue;
 		}
+		printf("\nTransaction completed!\n");
+		sleep(3);
 		break;
 	}while(1);
 	
 	paid_flights[current_user][choice-1] = 1;
+}
+//END OF THE FUNCTION PAYMENT===============
+
+//START OF THE FUNCTION MOST EXPENSIVE================
+void most_expensive(int current_user){
 	
-	if(choice == 1){
+	printf("\n---------MOST EXPENSIVE PAGE---------\n");
+	
+	int most_exp;
+	int none = 0;
+	
+	if(paid_flights[current_user][0] == 0 && paid_flights[current_user][1] == 0 && paid_flights[current_user][2] == 0){
 		
+		printf("\nThere are no paid flights to calculate the most expensive!\n");
+		none = 1;
+	}
+	else if(paid_flights[current_user][0] == 1 && paid_flights[current_user][1] == 1 && paid_flights[current_user][2] == 1 ){
+		int first,second,third;
+		first = atoi(pass[current_user].flights[0][2]);	
+		second = atoi(pass[current_user].flights[1][2]);
+		third = atoi(pass[current_user].flights[2][2]);
+		
+		if(first > second && first > third){
+			most_exp = 0;
+		}
+		else if(second > first && second > third){
+			most_exp = 1;
+		}
+		else if(third > first && third > second){
+			most_exp = 2;
+		}
+	}
+	else if(paid_flights[current_user][0] == 1 && paid_flights[current_user][1] == 1 && paid_flights[current_user][2] == 0){
+		int first,second;
+		first = atoi(pass[current_user].flights[0][2]);
+		second = atoi(pass[current_user].flights[1][2]);
+		
+		if(first > second){
+			most_exp = 0;
+		}
+		else{
+			most_exp = 1;
+		}
+	}
+	else if(paid_flights[current_user][0] == 1 && paid_flights[current_user][1] == 0 && paid_flights[current_user][2] == 1){
+		int first,third;
+		first = first = atoi(pass[current_user].flights[0][2]);
+		third = atoi(pass[current_user].flights[2][2]);
+		
+		if(first > third){
+			most_exp = 0;
+		}
+		else{
+			most_exp = 2;
+		}
 		
 	}
-	else if(choice == 2){
-			
+	else if(paid_flights[current_user][0] == 0 && paid_flights[current_user][1] == 1 && paid_flights[current_user][2] == 1){
+		int second,third;
+		second = atoi(pass[current_user].flights[1][2]);
+		third = atoi(pass[current_user].flights[2][2]);
+		
+		if(second > third){
+			most_exp = 1;
+		}
+		else{
+			most_exp = 2;
+		}
 	}
-	else if(choice == 3){
-			
+	else if(paid_flights[current_user][0] == 1 && paid_flights[current_user][1] == 0 && paid_flights[current_user][2] == 0){
+		most_exp = 0;
 	}
+	else if(paid_flights[current_user][0] == 0 && paid_flights[current_user][1] == 1 && paid_flights[current_user][2] == 0){
+		most_exp = 1;
+	}
+	else if(paid_flights[current_user][0] == 0 && paid_flights[current_user][1] == 0 && paid_flights[current_user][2] == 1){
+		most_exp = 2;
+	}
+	
+	if(none = 0){
+		printf("\nThe most expensive flight of all the flights that have been paid is the flight number %d",most_exp+1);
+		printf("\nThe code of the flight from Athens is: %s",pass[current_user].flights[most_exp][0]);
+		printf("\nThe code of the flight to Athens is: %s",pass[current_user].flights[most_exp][1]);
+		printf("\nThe cost of the flight is: %s",pass[current_user].flights[most_exp][2]);
+		printf("\nThe destination of the flight is: %s",pass[current_user].flights[most_exp][3]);
+	}
+	
 }
