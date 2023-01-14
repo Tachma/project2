@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
 				scanf(" %s",password);
 				
 				if(strcmp(username,"airadmin")!=0 || strcmp(password,"Air123")!=0 ){
-					printf("\nWrong credentials.Try again.\n ");
+					printf("\nWrong credentials.Try again.\n");
 					continue;
 				}
 				break;
@@ -340,7 +340,7 @@ void login_user(){
 				
 			}
 		}
-		else{
+		else if(calculate_done[current_user] == 1){
 			
 			printf("--- 1.View\n--- 2.Modify\n--- 3.Calculate\n--- 4.Payment\n--- 5.Most Expensive\n--- 6.Logout\n");
 		
@@ -371,7 +371,7 @@ void login_user(){
 					calculate_cost(current_user,i);	
 				}
 				
-				calculate_done[current_user] = 1; //This is an array which shows if the user has successfully done the calculation of the cost.
+				
 				
 				printf("\nCost Calculation successful.");
 				sleep(3);
@@ -408,13 +408,13 @@ void view_user(int current_user){
 	printf("--Username: %s\n",pass[current_user].username);
 	printf("--Password: %s\n",pass[current_user].password);
 	
-	if(calculate_done[current_user] = 1){
+	if(calculate_done[current_user] == 1){
 		
 		
 		
 	}
 	
-	sleep(10);
+	sleep(7);
 }
 //END OF THE FUNCTION VIEW_USER==============
 
@@ -488,7 +488,7 @@ void calculate_cost(int current_user , int i){
 	
 	printf("\nBook your flight number %d --- \n",i+1);
 	
-	printf("-Type ROM for Rome\n-Type MAD for Madrid\nType LON for London\n-Type BER for Berlin\n-Type AMS for Amsterdam\n-Type NYW for New York\n-Type BEI for Beijing\n-Type CHI for Chicago\n-Type SYD for Sydney\n");
+	printf("-Type ROM for Rome\n-Type MAD for Madrid\n-Type LON for London\n-Type BER for Berlin\n-Type AMS for Amsterdam\n-Type NYW for New York\n-Type BEI for Beijing\n-Type CHI for Chicago\n-Type SYD for Sydney\n");
 	
 	do{
 		
@@ -586,7 +586,10 @@ void calculate_cost(int current_user , int i){
 		char str_cost[10];
 		itoa(cost,str_cost,10);
 		strcpy(pass[current_user].flights[i][2],str_cost); //making the cost a string and adding it to the array.
-
+		
+		calculate_done[current_user] = 1; //This is an array which shows if the user has successfully done the calculation of the cost.
+				
+		
 		break;
 	}while(1);
 	
@@ -623,7 +626,7 @@ void payment(int current_user){
 		char typed_amount[10];
 		scanf("%s",typed_amount);  
 		
-		if(strcmp(typed_amount,pass[current_user].flights[current_user][choice-1])!=0){ //Checking if the typed amount of the user is correct.
+		if(strcmp(typed_amount,pass[current_user].flights[choice-1][2]) != 0){ //Checking if the typed amount of the user is correct.
 			
 			printf("Wrong input.Try again: ");
 			continue;
@@ -713,7 +716,7 @@ void most_expensive(int current_user){
 		most_exp = 2;
 	}
 	
-	if(none = 0){
+	if(none == 0){
 		printf("\nThe most expensive flight of all the flights that have been paid is the flight number %d",most_exp+1);
 		printf("\nThe code of the flight from Athens is: %s",pass[current_user].flights[most_exp][0]);
 		printf("\nThe code of the flight to Athens is: %s",pass[current_user].flights[most_exp][1]);
@@ -721,4 +724,5 @@ void most_expensive(int current_user){
 		printf("\nThe destination of the flight is: %s",pass[current_user].flights[most_exp][3]);
 	}
 	
+	sleep(5);
 }
