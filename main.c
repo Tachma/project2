@@ -408,12 +408,6 @@ void view_user(int current_user){
 	printf("--Username: %s\n",pass[current_user].username);
 	printf("--Password: %s\n",pass[current_user].password);
 	
-	if(calculate_done[current_user] == 1){
-		
-		
-		
-	}
-	
 	sleep(7);
 }
 //END OF THE FUNCTION VIEW_USER==============
@@ -437,7 +431,7 @@ void modify_user(int current_user){
 	
 	printf("\nChange Successfull!");
 	
-	sleep(3);
+	sleep(3); //WAIT TIME FOR THE MESSAGE ABOVE.
 	
 	
 }
@@ -602,13 +596,13 @@ void payment(int current_user){
 	
 	printf("\n---------PAYMENT PAGE---------\n");
 	
-	printf("\nThe cost of the first booked flight is : %s",pass[current_user].flights[0][2]);
+	printf("\nThe cost of the first booked flight is : %s",pass[current_user].flights[0][2]); //PRINTING ALL THE PRICES TO SELECT.
 	printf("\nThe cost of the second booked flight is : %s",pass[current_user].flights[1][2]);
 	printf("\nThe cost of the third booked flight is : %s",pass[current_user].flights[2][2]);
 	
 	printf("\nType 1 , 2 or 3 to pay one of the flight above: ");
 	
-	do{
+	do{ //INPUT CHECK.
 		
 		scanf("%d",&choice);
 		if(choice<1 || choice>3){
@@ -632,7 +626,7 @@ void payment(int current_user){
 			continue;
 		}
 		printf("\nTransaction completed!\n");
-		sleep(3);
+		sleep(3); //WAIT TIME FOR THE MESSAGE ABOVE.
 		break;
 	}while(1);
 	
@@ -648,14 +642,14 @@ void most_expensive(int current_user){
 	int most_exp;
 	int none = 0;
 	
-	if(paid_flights[current_user][0] == 0 && paid_flights[current_user][1] == 0 && paid_flights[current_user][2] == 0){
+	if(paid_flights[current_user][0] == 0 && paid_flights[current_user][1] == 0 && paid_flights[current_user][2] == 0){ //IN CASE THERE IS ANY PAID FLIGHTS.
 		
 		printf("\nThere are no paid flights to calculate the most expensive!\n");
 		none = 1;
 	}
 	else if(paid_flights[current_user][0] == 1 && paid_flights[current_user][1] == 1 && paid_flights[current_user][2] == 1 ){
 		int first,second,third;
-		first = atoi(pass[current_user].flights[0][2]);	
+		first = atoi(pass[current_user].flights[0][2]);	//CHANGING THE STRING INTO A INTEGER.atoi INCLUDED IN stdlib.h .
 		second = atoi(pass[current_user].flights[1][2]);
 		third = atoi(pass[current_user].flights[2][2]);
 		
@@ -716,7 +710,7 @@ void most_expensive(int current_user){
 		most_exp = 2;
 	}
 	
-	if(none == 0){
+	if(none == 0){ //CHECK IF THERE IS AT LEAST ONE PAID FLIGHT.
 		printf("\nThe most expensive flight of all the flights that have been paid is the flight number %d",most_exp+1);
 		printf("\nThe code of the flight from Athens is: %s",pass[current_user].flights[most_exp][0]);
 		printf("\nThe code of the flight to Athens is: %s",pass[current_user].flights[most_exp][1]);
@@ -724,5 +718,6 @@ void most_expensive(int current_user){
 		printf("\nThe destination of the flight is: %s",pass[current_user].flights[most_exp][3]);
 	}
 	
-	sleep(5);
+	sleep(10); //WAITING TIME FOR THE USER TO SEE THE RESULTS
+	
 }
